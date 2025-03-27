@@ -84,55 +84,55 @@
               :key="product.id"
               class="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
             >
-              <div class="relative">
-                <div class="aspect-w-1 aspect-h-1">
-                  <img
-                    :src="product.image"
-                    :alt="product.name"
-                    class="object-cover transform group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div class="absolute top-2 right-2">
-                  <button
-                    @click.prevent="toggleWishlist(product.id)"
-                    class="p-2 rounded-full bg-white shadow-md hover:bg-primary-50 transition-colors"
-                    :class="{ 'text-red-500': isInWishlist(product.id) }"
+              <router-link :to="`/products/${product.id}`" class="block">
+                <div class="relative">
+                  <div class="aspect-w-1 aspect-h-1">
+                    <img
+                      :src="product.image"
+                      :alt="product.name"
+                      class="object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div class="absolute top-2 right-2">
+                    <button
+                      @click.stop.prevent="toggleWishlist(product.id)"
+                      class="p-2 rounded-full bg-white shadow-md hover:bg-primary-50 transition-colors"
+                      :class="{ 'text-red-500': isInWishlist(product.id) }"
+                    >
+                      <HeartIcon class="w-6 h-6" />
+                    </button>
+                  </div>
+                  <div
+                    v-if="product.discount"
+                    class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded"
                   >
-                    <HeartIcon class="w-6 h-6" />
-                  </button>
-                </div>
-              </div>
-              
-              <div class="p-4">
-                <div class="mb-2">
-                  <h3 class="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
-                    {{ product.name }}
-                  </h3>
-                  <p class="text-sm text-gray-600">{{ product.category }}</p>
-                </div>
-                
-                <div class="flex items-center justify-between mb-4">
-                  <p class="text-xl font-bold text-primary-600">{{ product.price }}</p>
-                  <div class="flex items-center">
-                    <StarIcon v-for="i in 5" :key="i" class="w-5 h-5" :class="i <= product.rating ? 'text-yellow-400' : 'text-gray-300'" />
+                    {{ product.discount }}% OFF
                   </div>
                 </div>
-                
-                <div class="space-y-2">
-                  <router-link
-                    :to="'/products/' + product.id"
-                    class="block w-full text-center bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition-colors"
-                  >
-                    View Details
-                  </router-link>
-                  <button
-                    @click="addToCart(product)"
-                    class="block w-full text-center border border-primary-600 text-primary-600 py-2 rounded-md hover:bg-primary-50 transition-colors"
-                  >
-                    Add to Cart
-                  </button>
+                <div class="p-4">
+                  <h3 class="text-lg font-medium text-gray-900 mb-1">{{ product.name }}</h3>
+                  <div class="flex items-center mb-2">
+                    <div class="flex">
+                      <StarIcon
+                        v-for="i in 5"
+                        :key="i"
+                        class="w-4 h-4"
+                        :class="i <= (product.rating || 0) ? 'text-yellow-400' : 'text-gray-300'"
+                      />
+                    </div>
+                    <span class="text-xs text-gray-500 ml-1">{{ product.reviewCount || 0 }}</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <p class="text-lg font-bold text-primary-600">{{ product.price }}</p>
+                    <button
+                      @click.stop.prevent="addToCart(product)"
+                      class="bg-primary-600 text-white py-1 px-3 rounded-md text-sm hover:bg-primary-700 transition-colors"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
 
