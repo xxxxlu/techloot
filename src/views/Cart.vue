@@ -34,9 +34,10 @@
             />
             <button
               @click="removeItem(item.id)"
-              class="text-red-600 hover:text-red-700"
+              class="text-red-600 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition-colors"
+              title="Remove item"
             >
-              Remove
+              <TrashIcon class="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -56,17 +57,34 @@
         </button>
       </div>
     </template>
+    
+    <!-- Notification -->
+    <div v-if="showNotification" class="fixed bottom-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-md" role="alert">
+      <span class="block sm:inline">{{ notificationMessage }}</span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { TrashIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 
 // Cart items from localStorage
 const cartItems = ref<any[]>([]);
+const showNotification = ref(false);
+const notificationMessage = ref('');
+
+// Show notification function
+const showNotificationMessage = (message: string) => {
+  notificationMessage.value = message;
+  showNotification.value = true;
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 // Load cart items from localStorage
 onMounted(() => {
@@ -93,9 +111,12 @@ const total = computed(() => {
 const removeItem = (id: number) => {
   const index = cartItems.value.findIndex(item => item.id === id);
   if (index !== -1) {
+    const removedItem = cartItems.value[index];
     cartItems.value.splice(index, 1);
     // Update localStorage
     localStorage.setItem('techloot-cart', JSON.stringify(cartItems.value));
+    // Show notification
+    showNotificationMessage(`Removed ${removedItem.name} from cart`);
   }
 };
 
@@ -104,6 +125,8 @@ const updateQuantity = (item: any) => {
   if (item.quantity < 1) item.quantity = 1;
   // Update localStorage
   localStorage.setItem('techloot-cart', JSON.stringify(cartItems.value));
+  // Show notification
+  showNotificationMessage(`Updated ${item.name} quantity to ${item.quantity}`);
 };
 
 const proceedToCheckout = () => {
