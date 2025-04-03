@@ -35,7 +35,19 @@
 
     <!-- Footer -->
     <footer class="bg-white mt-auto">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 支付方式 -->
+        <div class="flex justify-center items-center space-x-4 mb-6">
+          <img src="/src/assets/easypaisa.png" alt="EasyPaisa" class="h-20 object-contain">
+          <img src="/src/assets/jazzcash.png" alt="JazzCash" class="h-20 object-contain">
+        </div>
+        
+        <!-- 联系方式 -->
+        <div class="text-center text-gray-500 mb-4">
+          <p>Contact: techloot@support.com</p>
+        </div>
+
+        <!-- 版权信息 -->
         <p class="text-center text-gray-500">
           Copyright 2025 | Powered by Data Network Solutions
         </p>

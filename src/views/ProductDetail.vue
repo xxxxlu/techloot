@@ -77,7 +77,7 @@
                 :class="i <= product.rating ? 'text-yellow-400' : 'text-gray-300'"
               />
             </div>
-            <span class="text-sm text-gray-600">({{ product.reviewCount }} reviews)</span>
+            <span class="text-sm text-gray-600">({{ product.rating }} reviews)</span>
           </div>
 
           <!-- Price -->
@@ -236,164 +236,42 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import {
-  HeartIcon,
-  StarIcon,
-  MinusIcon,
-  PlusIcon
-} from '@heroicons/vue/24/outline';
+import { HeartIcon, StarIcon, MinusIcon, PlusIcon } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
 const router = useRouter();
 
-// State
-const quantity = ref(1);
-const isInWishlist = ref(false);
+const productId = computed(() => Number(route.params.id));
+const selectedImage = ref('');
 const selectedColor = ref(null);
 const selectedStorage = ref(null);
-const selectedImage = ref('');
-const productId = computed(() => Number(route.params.id));
+const quantity = ref(1);
+const isInWishlist = ref(false);
 const showNotification = ref(false);
 const notificationMessage = ref('');
 
-// Show notification function
-const showNotificationMessage = (message: string) => {
-  notificationMessage.value = message;
-  showNotification.value = true;
-  setTimeout(() => {
-    showNotification.value = false;
-  }, 3000);
-};
-
-// All products data
-const allProducts = [
-  {
-    id: 1,
-    name: "Redmi Watch 5",
-    category: "Wearables",
-    price: "Rs. 12,100",
-    image: "https://mistore.pk/cdn/shop/files/Redmi_Watch_5_0000s_0000_Layer_1_1_300x.jpg?v=1736769255",
-    rating: 4,
-    reviewCount: 128,
-    discount: 5,
-    inStock: true,
-    description: 'Experience the latest Redmi Watch 5 with dynamic island, featuring a stunning 1.1-inch AMOLED display, heart rate monitoring, and an advanced fitness tracking system.',
-    images: [
-      'https://mistore.pk/cdn/shop/files/Redmi_Watch_5_0000s_0000_Layer_1_1_300x.jpg?v=1736769255',
-      'https://mistore.pk/cdn/shop/files/Xiaomi_Smart_Band_9_black_300x.png?v=1727081522',
-      'https://mistore.pk/cdn/shop/files/XiaomiWatch2black_300x.jpg?v=1723097714',
-      'https://mistore.pk/cdn/shop/files/Band9ProBlack_300x.jpg?v=1731664316'
-    ],
-    colors: [
-      { name: 'Deep Purple', value: '#5B4B8A' },
-      { name: 'Gold', value: '#F4E8CE' },
-      { name: 'Silver', value: '#F5F5F7' },
-      { name: 'Space Black', value: '#4E4E4E' }
-    ],
-    storage: [
-      { size: '128GB', price: 'Rs. 12,100' },
-      { size: '256GB', price: 'Rs. 13,999' }
-    ],
-    specifications: [
-      { name: 'Display', value: '1.1-inch AMOLED' },
-      { name: 'Processor', value: 'Qualcomm Snapdragon Wear 4100' },
-      { name: 'Battery', value: 'Up to 10 days battery life' },
-      { name: 'OS', value: 'MIUI for Watch' },
-      { name: 'Water Resistance', value: 'IP67' }
-    ]
-  },
-  {
-    id: 2,
-    name: "Redmi Watch 5 Lite",
-    category: "Wearables",
-    price: "Rs. 8,300",
-    image: "https://mistore.pk/cdn/shop/files/RedmiWatch5LiteBlack_300x.jpg?v=1728636950",
-    rating: 4,
-    reviewCount: 98,
-    discount: 10,
-    inStock: true,
-    description: 'The affordable Redmi Watch 5 Lite offers essential fitness tracking features with a bright display and long battery life in a lightweight design.',
-    images: [
-      'https://mistore.pk/cdn/shop/files/RedmiWatch5LiteBlack_300x.jpg?v=1728636950',
-      'https://mistore.pk/cdn/shop/files/RedmiWatch5LiteBlackSide_300x.jpg?v=1728636950',
-      'https://mistore.pk/cdn/shop/files/RedmiWatch5LiteBlackBack_300x.jpg?v=1728636950'
-    ],
-    colors: [
-      { name: 'Black', value: '#000000' },
-      { name: 'Silver', value: '#F5F5F7' }
-    ],
-    storage: [
-      { size: '32GB', price: 'Rs. 8,300' }
-    ],
-    specifications: [
-      { name: 'Display', value: '1.0-inch LCD' },
-      { name: 'Battery', value: 'Up to 7 days battery life' },
-      { name: 'Water Resistance', value: 'IP68' },
-      { name: 'Sensors', value: 'Heart rate, Accelerometer' }
-    ]
-  },
-  {
-    id: 3,
-    name: "Xiaomi Smart Band 9 Active",
-    category: "Wearables",
-    price: "Rs. 6,600",
-    image: "https://mistore.pk/cdn/shop/files/Band9ActiveBlack_300x.jpg?v=1731670089",
-    rating: 5,
-    reviewCount: 156,
-    discount: 0,
-    inStock: true,
-    description: 'The Xiaomi Smart Band 9 Active is the perfect fitness companion with its lightweight design, heart rate monitoring, and extended battery life.',
-    images: [
-      'https://mistore.pk/cdn/shop/files/Band9ActiveBlack_300x.jpg?v=1731670089',
-      'https://mistore.pk/cdn/shop/files/Band9ActiveBlackSide_300x.jpg?v=1731670089',
-      'https://mistore.pk/cdn/shop/files/Band9ActiveBlackBack_300x.jpg?v=1731670089'
-    ],
-    colors: [
-      { name: 'Black', value: '#000000' },
-      { name: 'Blue', value: '#0000FF' }
-    ],
-    specifications: [
-      { name: 'Display', value: '0.96-inch AMOLED' },
-      { name: 'Battery', value: 'Up to 14 days battery life' },
-      { name: 'Water Resistance', value: '5ATM' },
-      { name: 'Sensors', value: 'Heart rate, SpO2, Accelerometer' }
-    ]
-  }
-  // More products can be added here
-];
-
-// Get current product based on route ID
+// 获取商品数据
 const product = computed(() => {
-  const foundProduct = allProducts.find(p => p.id === productId.value);
+  const products = JSON.parse(localStorage.getItem('techloot-products') || '[]');
+  const foundProduct = products.find(p => p.id === productId.value);
   if (!foundProduct) {
-    // Redirect to products page if product not found
     router.push('/products');
-    return allProducts[0]; // Return default product to prevent errors
+    return {};
   }
   return foundProduct;
 });
 
-// Get related products (excluding current product)
+// 获取相关商品
 const relatedProducts = computed(() => {
-  return allProducts
-    .filter(p => p.id !== productId.value && p.category === product.value.category)
+  const products = JSON.parse(localStorage.getItem('techloot-products') || '[]');
+  return products
+    .filter(p => p.category === product.value.category && p.id !== productId.value)
     .slice(0, 4);
 });
 
 onMounted(() => {
-  // Set initial selected image
-  if (product.value && product.value.images && product.value.images.length > 0) {
-    selectedImage.value = product.value.images[0];
-  }
-  
-  // Set initial storage option if available
-  if (product.value && product.value.storage && product.value.storage.length > 0) {
-    selectedStorage.value = product.value.storage[0];
-  }
-  
-  // Set initial color if available
-  if (product.value && product.value.colors && product.value.colors.length > 0) {
-    selectedColor.value = product.value.colors[0];
+  if (product.value.image) {
+    selectedImage.value = product.value.image;
   }
 });
 
@@ -438,9 +316,6 @@ const addToCart = () => {
   
   // Save updated cart to localStorage
   localStorage.setItem('techloot-cart', JSON.stringify(cart));
-  
-  // Show notification
-  showNotificationMessage(`Added ${quantity.value} ${product.value.name} to cart`);
 };
 
 const buyNow = () => {

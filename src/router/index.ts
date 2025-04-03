@@ -35,6 +35,11 @@ const router = createRouter({
       path: '/register',
       component: () => import('../views/Register.vue'),
     },
+    {
+      path: '/payment-success',
+      name: 'PaymentSuccess',
+      component: () => import('../views/PaymentSuccess.vue')
+    }
   ],
 });
 

@@ -120,15 +120,21 @@
                         :class="i <= (product.rating || 0) ? 'text-yellow-400' : 'text-gray-300'"
                       />
                     </div>
-                    <span class="text-xs text-gray-500 ml-1">{{ product.reviewCount || 0 }}</span>
+                    <span class="text-xs text-gray-500 ml-1">{{ product.rating || 0 }}</span>
                   </div>
                   <div class="flex justify-between items-center">
                     <p class="text-lg font-bold text-primary-600">{{ product.price }}</p>
                     <button
                       @click.stop.prevent="addToCart(product)"
-                      class="bg-primary-600 text-white py-1 px-3 rounded-md text-sm hover:bg-primary-700 transition-colors"
+                      class="py-1 px-3 rounded-md text-sm transition-colors"
+                      :class="[
+                        product.inStock 
+                          ? 'bg-primary-600 text-white hover:bg-primary-700' 
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ]"
+                      :disabled="!product.inStock"
                     >
-                      Add to Cart
+                      {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}
                     </button>
                   </div>
                 </div>
@@ -160,9 +166,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { HeartIcon, StarIcon } from '@heroicons/vue/24/outline';
 
+const route = useRoute();
 // Categories
 const categories = [
   { id: 'electronics', name: 'electronics' },
@@ -185,7 +193,8 @@ const products = [
     "description": "6.5\" 90Hz display, 8GB RAM, 256GB storage, triple camera setup",
     "discount": "15% OFF",
     "saveAmount": "Save Rs. 7,000",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 2,
@@ -197,7 +206,8 @@ const products = [
     "description": "Lightweight running shoes with responsive cushioning and breathable mesh upper",
     "discount": "20% OFF",
     "saveAmount": "Save Rs. 3,200",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 3,
@@ -209,7 +219,8 @@ const products = [
     "description": "50MP camera, AMOLED display, 8GB RAM, 128GB storage, fast charging",
     "discount": "12% OFF",
     "saveAmount": "Save Rs. 6,000",
-    "onSale": true
+    "onSale": true,
+    "inStock": false 
   },
   {
     "id": 4,
@@ -221,7 +232,8 @@ const products = [
     "description": "Lightweight mesh upper with soft foam midsole for responsive cushioning",
     "discount": "25% OFF",
     "saveAmount": "Save Rs. 2,800",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 5,
@@ -233,7 +245,8 @@ const products = [
     "description": "Snapdragon 8 Gen 2, 8GB RAM, 128GB storage, 50MP camera, 100W fast charging",
     "discount": "10% OFF",
     "saveAmount": "Save Rs. 5,500",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 6,
@@ -245,7 +258,8 @@ const products = [
     "description": "Iconic suede upper with contrasting 3-stripes and rubber outsole",
     "discount": "18% OFF",
     "saveAmount": "Save Rs. 2,200",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 7,
@@ -257,7 +271,8 @@ const products = [
     "description": "108MP camera, 6.67\" AMOLED display, 8GB RAM, 5000mAh battery",
     "discount": "15% OFF",
     "saveAmount": "Save Rs. 6,200",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 8,
@@ -269,7 +284,8 @@ const products = [
     "description": "5G connectivity, 8GB RAM, 256GB storage, dual camera system with night mode",
     "discount": "20% OFF",
     "saveAmount": "Save Rs. 7,500",
-    "onSale": true
+    "onSale": true,
+    "inStock": false 
   },
   {
     "id": 9,
@@ -281,7 +297,8 @@ const products = [
     "description": "Lightweight mesh construction with cushioned midsole for all-day comfort",
     "discount": "30% OFF",
     "saveAmount": "Save Rs. 3,400",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 10,
@@ -293,7 +310,8 @@ const products = [
     "description": "Dual SIM, 2MP camera with LED flash, AI assistant, long battery life",
     "discount": "10% OFF",
     "saveAmount": "Save Rs. 550",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 11,
@@ -305,7 +323,8 @@ const products = [
     "description": "Professional cricket shoes with BOA fit system and responsive cushioning",
     "discount": "15% OFF",
     "saveAmount": "Save Rs. 2,650",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 12,
@@ -317,7 +336,8 @@ const products = [
     "description": "Elegant embroidered 3-piece suit with premium fabric and intricate details",
     "discount": "25% OFF",
     "saveAmount": "Save Rs. 2,150",
-    "onSale": true
+    "onSale": true,
+    "inStock": false 
   },
   {
     "id": 13,
@@ -329,7 +349,8 @@ const products = [
     "description": "Professional hockey shoes with enhanced grip and lightweight construction",
     "discount": "20% OFF",
     "saveAmount": "Save Rs. 3,000",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 14,
@@ -341,7 +362,8 @@ const products = [
     "description": "Active noise cancellation, spatial audio, adaptive EQ, water resistant",
     "discount": "8% OFF",
     "saveAmount": "Save Rs. 3,800",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 15,
@@ -353,7 +375,8 @@ const products = [
     "description": "Stainless steel chronograph watch with genuine leather strap and water resistance",
     "discount": "35% OFF",
     "saveAmount": "Save Rs. 8,500",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 16,
@@ -365,7 +388,8 @@ const products = [
     "description": "Premium synthetic leather with elegant design, multiple compartments and adjustable straps",
     "discount": "40% OFF",
     "saveAmount": "Save Rs. 5,300",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 17,
@@ -377,7 +401,8 @@ const products = [
     "description": "Tailored two-piece business suit in classic navy blue with premium wool blend fabric",
     "discount": "30% OFF",
     "saveAmount": "Save Rs. 7,900",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 18,
@@ -389,7 +414,8 @@ const products = [
     "description": "Smart robot vacuum with mapping technology, app control and multiple cleaning modes",
     "discount": "15% OFF",
     "saveAmount": "Save Rs. 5,300",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 19,
@@ -401,7 +427,8 @@ const products = [
     "description": "Breathable mesh upper with cushioned sole for daily walking and running",
     "discount": "25% OFF",
     "saveAmount": "Save Rs. 1,800",
-    "onSale": true
+    "onSale": true,
+    "inStock": false 
   },
   {
     "id": 20,
@@ -413,7 +440,8 @@ const products = [
     "description": "Professional drawing tablet with 8192 levels of pressure sensitivity and wireless connectivity",
     "discount": "20% OFF",
     "saveAmount": "Save Rs. 3,750",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 21,
@@ -425,7 +453,8 @@ const products = [
     "description": "4K Ultra HD resolution, smart features with built-in streaming apps and voice control",
     "discount": "18% OFF",
     "saveAmount": "Save Rs. 10,700",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 22,
@@ -437,7 +466,8 @@ const products = [
     "description": "UV400 protection with polarized lenses and lightweight designer frame",
     "discount": "30% OFF",
     "saveAmount": "Save Rs. 1,700",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 23,
@@ -449,7 +479,8 @@ const products = [
     "description": "Genuine leather wallet with multiple card slots and RFID blocking technology",
     "discount": "35% OFF",
     "saveAmount": "Save Rs. 1,350",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 24,
@@ -461,7 +492,8 @@ const products = [
     "description": "Salon-grade hair dryer with multiple heat settings and ionic technology",
     "discount": "25% OFF",
     "saveAmount": "Save Rs. 1,830",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 25,
@@ -473,7 +505,8 @@ const products = [
     "description": "Waterproof fitness tracker with heart rate monitor, sleep tracking and smartphone notifications",
     "discount": "20% OFF",
     "saveAmount": "Save Rs. 2,250",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 26,
@@ -485,7 +518,8 @@ const products = [
     "description": "Portable wireless speaker with 20W output, 12-hour battery life and water resistance",
     "discount": "30% OFF",
     "saveAmount": "Save Rs. 3,000",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 27,
@@ -497,7 +531,8 @@ const products = [
     "description": "24.1MP sensor, 4K video recording, vari-angle touchscreen and built-in Wi-Fi",
     "discount": "10% OFF",
     "saveAmount": "Save Rs. 5,500",
-    "onSale": true
+    "onSale": true,
+    "inStock": false 
   },
   {
     "id": 28,
@@ -509,7 +544,8 @@ const products = [
     "description": "Water-resistant laptop backpack with anti-theft features and multiple compartments",
     "discount": "25% OFF",
     "saveAmount": "Save Rs. 1,670",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 29,
@@ -521,7 +557,8 @@ const products = [
     "description": "Long-lasting floral fragrance with notes of jasmine, rose, and sandalwood",
     "discount": "35% OFF",
     "saveAmount": "Save Rs. 4,050",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   },
   {
     "id": 30,
@@ -533,7 +570,8 @@ const products = [
     "description": "Wireless over-ear headphones with active noise cancellation and 30-hour battery life",
     "discount": "22% OFF",
     "saveAmount": "Save Rs. 3,700",
-    "onSale": true
+    "onSale": true,
+    "inStock": true 
   }
 ]
 
@@ -588,6 +626,16 @@ const filteredProducts = computed(() => {
   return result;
 });
 
+onMounted(() => {
+  const categoryFromUrl = route.query.category as string;
+  if (categoryFromUrl) {
+    selectedCategories.value = [categoryFromUrl];
+  }
+  
+  // 保存商品数据到 localStorage
+  localStorage.setItem('techloot-products', JSON.stringify(products));
+});
+
 const totalPages = computed(() => 
   Math.ceil(filteredProducts.value.length / itemsPerPage)
 );
@@ -618,15 +666,19 @@ const toggleWishlist = (productId: number) => {
 const isInWishlist = (productId: number) => wishlist.value.includes(productId);
 
 const addToCart = (product: any) => {
-  // Check if product is already in cart
+  // 获取当前购物车数据
+  const savedCart = localStorage.getItem('techloot-cart');
+  cart.value = savedCart ? JSON.parse(savedCart) : [];
+  
+  // 检查商品是否已在购物车中
   const existingProduct = cart.value.find(item => item.id === product.id);
   
   if (existingProduct) {
-    // Increase quantity if already in cart
+    // 如果商品已存在，增加数量
     existingProduct.quantity += 1;
-    cartNotificationMessage.value = `Increased ${product.name} quantity in cart`;
+    cartNotificationMessage.value = `增加了 ${product.name} 的数量`;
   } else {
-    // Add new product to cart
+    // 如果是新商品，添加到购物车
     cart.value.push({
       id: product.id,
       name: product.name,
@@ -634,20 +686,16 @@ const addToCart = (product: any) => {
       image: product.image,
       quantity: 1
     });
-    cartNotificationMessage.value = `Added ${product.name} to cart`;
+    cartNotificationMessage.value = `已将 ${product.name} 添加到购物车`;
   }
   
-  // Show notification
-  showCartNotification.value = true;
+  // 保存到 localStorage
+  localStorage.setItem('techloot-cart', JSON.stringify(cart.value));
   
-  // Hide notification after 3 seconds
+  // 显示通知
+  showCartNotification.value = true;
   setTimeout(() => {
     showCartNotification.value = false;
   }, 3000);
-  
-  // Save cart to localStorage
-  localStorage.setItem('techloot-cart', JSON.stringify(cart.value));
-  
-  console.log('Cart updated:', cart.value);
 };
 </script>

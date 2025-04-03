@@ -29,7 +29,7 @@
           <div class="mt-12 lg:mt-0">
             <img
               alt="Latest devices"
-              src="https://mistore.pk/cdn/shop/files/Artboard_1_copy_2_d08dee80-eff7-4417-96cb-ba3075c34f1c_300x.jpg?v=1724499700"
+              src="https://rangreza.net/cdn/shop/files/Pakistani_Eid_Dresses_Rangreza.jpg?v=1741542924&width=2400"
               class="w-full object-cover rounded-lg shadow-xl animate-pulse-slow"
             />
           </div>
@@ -146,63 +146,75 @@ import {
 const categories = [
   {
     id: 1,
-    name: 'Wearables',
-    description: 'Smart watches, bands and fitness trackers',
-    image: 'https://mistore.pk/cdn/shop/files/Redmi_Watch_5_0000s_0000_Layer_1_1_300x.jpg?v=1736769255',
-    link: '/products?category=wearables'
+    name: 'Electronics',
+    description: 'Smartphones, cameras, headphones and other electronic products',
+    image: 'https://m.media-amazon.com/images/I/81WeehnfXrL._AC_SL1500_.jpg',
+    link: '/products?category=electronics'
   },
   {
     id: 2,
     name: 'Accessories',
-    description: 'Keyboards, mice and other tech accessories',
-    image: 'https://mistore.pk/cdn/shop/products/XiaomiWirelessKeyboardandMouseCombo_300x.png?v=1673508534',
+    description: 'Backpacks, accessories and other fashion items',
+    image: 'https://m.media-amazon.com/images/I/91PF4HmzZML._AC_SL1500_.jpg',
     link: '/products?category=accessories'
   },
   {
     id: 3,
-    name: 'Networking',
-    description: 'Routers, range extenders and networking gear',
-    image: 'https://mistore.pk/cdn/shop/files/routerAC1200_300x.jpg?v=1710919264',
-    link: '/products?category=networking'
+    name: 'Beauty & Personal Care',
+    description: 'Perfumes, skin care products and other beauty products',
+    image: 'https://m.media-amazon.com/images/I/61ICNVUDIQL._SL1500_.jpg',
+    link: '/products?category=beauty'
   }
 ];
 
 const latestProducts = [
-  {
-    id: 1,
-    name: "redmi watch 5",
-    price: "Rs. 25,100",
-    image: "https://mistore.pk/cdn/shop/files/Redmi_Watch_5_0000s_0000_Layer_1_1_300x.jpg?v=1736769255",
-    discount: "7% OFF",
-    saveAmount: "Save Rs. 1,900",
-    onSale: true
+{
+    "id": 27,
+    "name": "Professional DSLR Camera",
+    "category": "Electronics",
+    "price": "Rs. 49,999",
+    "image": "https://m.media-amazon.com/images/I/81WeehnfXrL._AC_SL1500_.jpg",
+    "rating": 4.9,
+    "description": "24.1MP sensor, 4K video recording, vari-angle touchscreen and built-in Wi-Fi",
+    "discount": "10% OFF",
+    "saveAmount": "Save Rs. 5,500",
+    "onSale": true
   },
   {
-    id: 2,
-    name: "xiaomi smart band 9",
-    price: "Rs. 10,000",
-    image: "https://mistore.pk/cdn/shop/files/Xiaomi_Smart_Band_9_black_300x.png?v=1727081522",
-    discount: "9% OFF",
-    saveAmount: "Save Rs. 1,000",
-    onSale: true
+    "id": 28,
+    "name": "Designer Backpack",
+    "category": "Accessories",
+    "price": "Rs. 4,999",
+    "image": "https://m.media-amazon.com/images/I/91PF4HmzZML._AC_SL1500_.jpg",
+    "rating": 4.6,
+    "description": "Water-resistant laptop backpack with anti-theft features and multiple compartments",
+    "discount": "25% OFF",
+    "saveAmount": "Save Rs. 1,670",
+    "onSale": true
   },
   {
-    id: 3,
-    name: "xiaomi watch 2 overview",
-    price: "Rs. 47,000",
-    image: "https://mistore.pk/cdn/shop/files/XiaomiWatch2black_300x.jpg?v=1723097714",
-    discount: "6% OFF",
-    saveAmount: "Save Rs. 3,000",
-    onSale: true
+    "id": 29,
+    "name": "Premium Perfume for Women",
+    "category": "Beauty & Personal Care",
+    "price": "Rs. 7,499",
+    "image": "https://m.media-amazon.com/images/I/61ICNVUDIQL._SL1500_.jpg",
+    "rating": 4.7,
+    "description": "Long-lasting floral fragrance with notes of jasmine, rose, and sandalwood",
+    "discount": "35% OFF",
+    "saveAmount": "Save Rs. 4,050",
+    "onSale": true
   },
   {
-    id: 4,
-    name: "xiaomi wireless keyboard and mouse combo overview",
-    price: "Rs. 6,900",
-    image: "https://mistore.pk/cdn/shop/products/XiaomiWirelessKeyboardandMouseCombo_300x.png?v=1673508534",
-    discount: "8% OFF",
-    saveAmount: "Save Rs. 600",
-    onSale: true
+    "id": 30,
+    "name": "Noise Cancelling Headphones",
+    "category": "Electronics",
+    "price": "Rs. 12,999",
+    "image": "https://m.media-amazon.com/images/I/51JbsHSktkL._AC_UF894,1000_QL80_.jpg",
+    "rating": 4.8,
+    "description": "Wireless over-ear headphones with active noise cancellation and 30-hour battery life",
+    "discount": "22% OFF",
+    "saveAmount": "Save Rs. 3,700",
+    "onSale": true
   }
 ];
 

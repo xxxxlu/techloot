@@ -13,9 +13,18 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 onMounted(() => {
-  // Simulate payment processing
-  setTimeout(() => {
-    // Redirect to success page or home
+  // 确保订单信息已保存
+  const orderInfo = localStorage.getItem('orderInfo');
+  if (!orderInfo) {
     router.push('/');
+    return;
+  }
+
+  // 模拟支付处理
+  setTimeout(() => {
+    router.push({
+      name: 'PaymentSuccess'  // 使用命名路由进行跳转
+    });
   }, 3000);
-});</script>
+});
+</script>
