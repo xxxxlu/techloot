@@ -49,7 +49,7 @@
 
         <!-- 版权信息 -->
         <p class="text-center text-gray-500">
-          Copyright 2025 | Powered by Data Network Solutions
+          Copyright 2025 | Powered by Data Network Solutions (SMC-Private) Limited
         </p>
       </div>
     </footer>
