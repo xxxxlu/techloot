@@ -220,12 +220,6 @@ const latestProducts = [
 
 const features = [
   {
-    id: 1,
-    icon: TruckIcon,
-    title: 'Fast Delivery',
-    description: 'Free delivery across Pakistan on orders above Rs. 50,000'
-  },
-  {
     id: 2,
     icon: ShieldCheckIcon,
     title: 'Secure Shopping',

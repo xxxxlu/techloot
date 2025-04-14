@@ -44,12 +44,12 @@
         
         <!-- 联系方式 -->
         <div class="text-center text-gray-500 mb-4">
-          <p>Contact: techloot@support.com</p>
+          <p>Contact: techloot@techloot.today</p>
         </div>
 
         <!-- 版权信息 -->
         <p class="text-center text-gray-500">
-          Copyright 2025 | Powered by Data Network Solutions (SMC-Private) Limited
+          Copyright © 2025 TechLoot Store. Powered by DATA TECH SOLUTIONS SMC PRIVATE LIMITED2
         </p>
       </div>
     </footer>
